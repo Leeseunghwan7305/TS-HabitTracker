@@ -1,0 +1,14 @@
+.nav {
+  display: flex;
+  flex: 1;
+  width: 100%;
+}
+.nav input {
+  flex: 1;
+  border: none;
+  padding: 30px;
+}
+.nav button {
+  border: none;
+  padding: 30px;
+}

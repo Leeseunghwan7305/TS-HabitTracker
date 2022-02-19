@@ -1,24 +1,31 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import Nav from "./components/nav/nav";
+import Body from "./components/body/body";
+import styles from "./app.module.css";
 
+export type Todo = {
+  id: number;
+  habit: string;
+};
 function App() {
+  const [list, setList] = useState<Todo[]>([
+    { id: 1, habit: "코딩하기" },
+    { id: 2, habit: "공부하기" },
+  ]);
+  function onInsert(text: string) {
+    const newTodo = [...list];
+    let count = newTodo.length;
+    newTodo.push({ id: count + 1, habit: text });
+    setList(newTodo);
+  }
+
+  function Remove(id: number) {
+    setList(list.filter((item) => item.id !== id));
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className={styles.app}>
+      <Nav onInsert={onInsert}></Nav>
+      <Body list={list} Remove={Remove}></Body>
     </div>
   );
 }
