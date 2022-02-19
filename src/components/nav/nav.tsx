@@ -1,11 +1,20 @@
-import React, { useState } from "react";
-import { setTextRange } from "typescript";
+import React, { useState, useRef } from "react";
 import styles from "./nav.module.css";
-const Nav = (onInsert: void) => {
-  let [toggle, setToggle] = useState<boolean>(true);
+type Props = {
+  onInsert: (text: string, inputRef: any) => void;
+  toggle: boolean;
+  setToggle: any;
+};
+const Nav = ({ onInsert, toggle, setToggle }: Props) => {
+  let inputRef = useRef<HTMLInputElement>(null);
   let [text, setText] = useState("");
   function changeText(e: React.ChangeEvent<HTMLInputElement>) {
     setText(e.target.value);
+  }
+  function Press(e: React.KeyboardEvent<HTMLInputElement>) {
+    if (e.code == "Enter") {
+      onInsert(text, inputRef);
+    }
   }
   return (
     <div className={styles.nav}>
@@ -14,10 +23,15 @@ const Nav = (onInsert: void) => {
           setToggle(!toggle);
         }}
       >
-        {toggle ? "펼치기" : "감추기"}
+        {toggle ? "감추기" : "펼치기"}
       </button>
-      <input onChange={changeText} placeholder="여기에 입력해주세요"></input>
-      <button onClick={onInsert}>추가하기</button>
+      <input
+        ref={inputRef}
+        onChange={changeText}
+        placeholder="여기에 입력해주세요"
+        onKeyPress={(e) => Press(e)}
+      ></input>
+      <button onClick={() => onInsert(text, inputRef)}>추가하기</button>
     </div>
   );
 };

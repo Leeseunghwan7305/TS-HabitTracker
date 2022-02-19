@@ -7,13 +7,13 @@ type props = {
 };
 const Body = ({ list, Remove }: props) => {
   return (
-    <div>
+    <div className={styles.box}>
       {list.map((item: Todo) => {
         return (
-          <div>
-            <div>{list.id}</div>
-            <div>{list.habit}</div>
-            <button onClick={Remove}>삭제하기</button>
+          <div className={styles.list}>
+            <p>습관</p>
+            <div>{item.habit}</div>
+            <button onClick={() => Remove(item.id)}>삭제하기</button>
           </div>
         );
       })}
